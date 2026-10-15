@@ -1,6 +1,7 @@
 package org.example.novysh.tests;
 
 import io.qameta.allure.*;
+import org.example.novysh.utils.CustomLogger;
 import org.example.novysh.page.ContactUsPage;
 import org.example.novysh.page.MainPage;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ public class ContactUsMandatoryFieldsTest extends BaseTest {
     @BeforeEach
     @Step("Setup: Open home page and navigate to 'Contact Us' form")
     void setUpContactUsPage() {
+        CustomLogger.info("Initializing pages and navigating to 'Contact Us'");
         MainPage mainPage = new MainPage(page);
 
         contactUsPage = mainPage.open()
@@ -29,10 +31,14 @@ public class ContactUsMandatoryFieldsTest extends BaseTest {
     @DisplayName("Verify Name field validation on form submission")
     @Description("Tests that an error message appears when submitting the form without providing a Name")
     void testContactUsFormValidationNameRequired() {
+        CustomLogger.info("--- Scenario: Verify Name field requirement ---");
+
+        CustomLogger.info("Filling form without Name and submitting");
         contactUsPage.fillForm(null, "Innowise", "+1234567890", "test@innowise.com", "Project details")
                 .clickSend();
 
-        assertThat(contactUsPage.getNameError()).hasText("Please fill out this field");
+        CustomLogger.info("Checking error message on Name field");
+        assertThat(contactUsPage.getNameError()).hasText("Please fill out this field word");
     }
 
     @Test
@@ -41,9 +47,13 @@ public class ContactUsMandatoryFieldsTest extends BaseTest {
     @DisplayName("Verify Phone field validation on form submission")
     @Description("Tests that an error message appears when submitting the form without providing a Phone number")
     void testContactUsFormValidationPhoneRequired() {
+        CustomLogger.info("--- Scenario: Verify Phone field requirement ---");
+
+        CustomLogger.info("Filling form without Phone and submitting");
         contactUsPage.fillForm("John Doe", "Innowise", null, "test@innowise.com", "Project details")
                 .clickSend();
 
+        CustomLogger.info("Checking error message on Name field");
         assertThat(contactUsPage.getPhoneError()).hasText("Please fill out this field");
     }
 }
