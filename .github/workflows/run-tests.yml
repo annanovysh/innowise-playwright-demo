@@ -43,3 +43,11 @@ jobs:
                 name: allure-report-artifact
                 path: target/site/allure-maven-plugin/ # Стандартный путь для Maven Allure плагина
                 retention-days: 30
+
+                  # 3. Публикуем сгенерированный отчет на GitHub Pages
+      - name: Deploy to GitHub Pages
+        if: always()
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+               folder: target/site/allure-maven-plugin # Откуда брать готовый сайт
+               branch: gh-pages                        # В какую ветку складывать сайт
