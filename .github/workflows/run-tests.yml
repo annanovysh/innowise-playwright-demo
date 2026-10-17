@@ -30,21 +30,16 @@ jobs:
         run: mvn test
         continue-on-error: true # Важно: если тесты упадут, мы всё равно хотим сгенерировать отчет Allure для анализа!
 
-      # 2. Устанавливаем Java-утилиту для генерации Allure
-      - name: Get Allure results
-        uses: simple-elf/allure-action@master
+      # 2. Генерируем Allure отчет через встроенный Maven плагин (никаких сторонних экшенов!)
+      - name: Generate Allure Report
         if: always()
-        id: allure-report
-        with:
-          allure_results: 'target/allure-results' # Путь, куда ваши тесты складывают сырые данные Allure
-          allure_report: 'target/allure-report'
-          keep_reports: 20
-
-      # 3. Публикуем отчет в виде Artifact, чтобы его можно было скачать из GitHub
+        run: mvn allure:report
+          
+      # 3. Загружаем готовый отчет в артефакты GitHub
       - name: Upload Allure Report Artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report-artifact
-          path: target/allure-report
-          retention-days: 30
+                name: allure-report-artifact
+                path: target/site/allure-maven-plugin/ # Стандартный путь для Maven Allure плагина
+                retention-days: 30
