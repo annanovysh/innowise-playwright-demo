@@ -36,6 +36,10 @@ public class BaseTest {
     @BeforeEach
     void createContextAndPage() {
         context = browser.newContext(new Browser.NewContextOptions().setViewportSize(null));
+
+        context.setDefaultTimeout(10000);
+        context.setDefaultNavigationTimeout(15000);
+
         page = context.newPage();
     }
 

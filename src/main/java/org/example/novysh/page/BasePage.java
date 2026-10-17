@@ -15,7 +15,7 @@ public abstract class BasePage {
     }
 
     public void acceptCookiesOnScroll() {
-        page.evaluate("window.scrollBy({ top: 400, behavior: 'smooth' })");
+        page.evaluate("window.scrollBy({ top: 600, behavior: 'smooth' })");
         Locator acceptBtn = page.locator("#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll");
         acceptBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         acceptBtn.click();

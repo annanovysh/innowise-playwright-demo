@@ -12,14 +12,12 @@ public class TestResultLoggerExtension implements AfterTestExecutionCallback {
 
     @Override
     public void afterTestExecution(ExtensionContext context) {
-        // Проверяем, завершился ли тест с ошибкой
         if (context.getExecutionException().isPresent()) {
             Object testInstance = context.getTestInstance().orElse(null);
             if (testInstance == null) return;
 
             Page page = findPageField(testInstance);
 
-            // В этот момент @AfterEach ЕЩЕ НЕ ВЫЗВАН, страница 100% открыта!
             if (page != null && !page.isClosed()) {
                 try {
                     byte[] screenshot = page.screenshot(new Page.ScreenshotOptions().setFullPage(true));
